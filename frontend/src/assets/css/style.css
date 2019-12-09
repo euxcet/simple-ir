@@ -1,0 +1,46 @@
+.main {
+    margin-top: 150px;
+}
+.search-bar {
+    margin-top: 30px;
+    width: 60%;
+    margin-left: 20%;
+    height: 200px;
+}
+
+.form-input {
+    width: 80%;
+    float: left;
+}
+
+.form-button {
+    float: left;
+    height: 40px;
+}
+
+.form-checkbox {
+    margin-top: 20px;
+    float: left;
+    width: 100%;
+}
+
+.form-checkbox-group {
+    margin-top: 20px;
+    float: left;
+    width: 100%;
+}
+
+.form-window {
+    margin-top: 20px;
+    float: left;
+    width: 100%;
+}
+
+.form-window label {
+    margin-right: 20px;
+}
+
+.result {
+    width: 90%;
+    margin-left: 5%;
+}
