@@ -1,7 +1,7 @@
 .main {
     margin-top: 150px;
 }
-.search-bar {
+.form-container {
     margin-top: 30px;
     width: 60%;
     margin-left: 20%;
@@ -30,6 +30,12 @@
     width: 100%;
 }
 
+.form-checkbox-in {
+    width: 18%;
+    margin: 0;
+    text-align: left;
+}
+
 .form-window {
     margin-top: 20px;
     float: left;
@@ -40,7 +46,8 @@
     margin-right: 20px;
 }
 
-.result {
+.result-container {
     width: 90%;
     margin-left: 5%;
+    margin-top: 60px;
 }

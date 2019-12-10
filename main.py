@@ -9,10 +9,10 @@ def exception_handler(request, exception):
     print("Request failed")
 
 def create_index():
-    print(elastic.delete_index())
-    print(elastic.create_index())
-    fin = open("sogou0011", "r", encoding = 'utf-8')
-    for i in range(4700000):
+    #print(elastic.delete_index())
+    #print(elastic.create_index())
+    fin = open("Sogou0019", "r", encoding = 'utf-8')
+    for i in range(24000000):
         line = fin.readline()
         elastic.insert_doc(line)
         if i % 5000 == 0:
