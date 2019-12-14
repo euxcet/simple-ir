@@ -83,7 +83,7 @@ class Elastic:
                 }
             })
         return self.post("/_search/", {
-            "size": 20,
+            "size": 1000,
             "query": {
                 "bool": {
                     "must": must

@@ -8,12 +8,28 @@ elastic = Elastic()
 def exception_handler(request, exception):
     print("Request failed")
 
+def modify(line):
+    x = line.split(' ')
+    prev = "/w"
+    for i in range(len(x)):
+        nxt = "/w"
+        if i + 1 < len(x):
+            nxt = "/" + x[i + 1].split('/')[1]
+        pre = prev
+        prev = "/" + x[i].split('/')[1]
+        x[i] = pre + x[i].split('/')[0] + nxt
+    return " ".join(x)
+
+
+
 def create_index():
     #print(elastic.delete_index())
     #print(elastic.create_index())
-    fin = open("Sogou0019", "r", encoding = 'utf-8')
-    for i in range(24000000):
+    fin = open("Sogou0000", "r", encoding = 'utf-8')
+    for i in range(48000000):
         line = fin.readline()
+        #print(line)
+        #print(modify(line))
         elastic.insert_doc(line)
         if i % 5000 == 0:
             print(i)

@@ -20,6 +20,8 @@ for i in range(len(class_name)):
     option_dict[class_name[i]] = class_type[i]
 
 def gen_word_pattern(word, options):
+    return word + '/.*'
+    '''
     pattern = r'' + word + '/('
     first_option = True
     for option in options:
@@ -30,6 +32,7 @@ def gen_word_pattern(word, options):
             pattern = pattern + "|" + option_dict[option]
     pattern = pattern + ')'
     return pattern
+    '''
 
 def gen_pattern(words, options):
     return map(lambda word: gen_word_pattern(word, options), words)
@@ -39,13 +42,34 @@ def search_doc(words, phrase_word, options, window_len):
     search_pattern = gen_pattern(words, options)
     word_pattern = gen_word_pattern(phrase_word, options)
     result = elastic.search_doc_multi(search_pattern).json()
-    phrase_set = set()
+    phrase_set = dict()
+    option_class = set()
     docs = []
+    for option in options:
+        option_class.add(option_dict[option])
     for hit in result["hits"]["hits"]:
         doc = hit["_source"]['content'].split(' ')
         doc_without_class = remove_class(doc)
         for i in range(len(doc)):
             if re.match(word_pattern, doc[i]):
+                for dlt in range(-window_len, window_len + 1):
+                    if dlt != 0 and i + dlt >= 0 and i + dlt < len(doc) and get_class(doc[i + dlt]) in option_class:
+                        phrase = doc[i + dlt].split("/")[0]
+                        if phrase not in phrase_set:
+                            phrase_set[phrase] = (0, doc_without_class)
+                        else:
+                            in_set = phrase_set[phrase]
+                            phrase_set[phrase] = (in_set[0] - 1, in_set[1])
+                            #phrase_set.add(phrase)
+                            '''
+                            docs.append({
+                                'phrase': phrase,
+                                'doc': doc_without_class
+                            })
+                            if len(docs) == 100:
+                                return docs
+                            '''
+                '''
                 for start in range(-window_len, 1):
                     valid = True
                     for j in range(window_len + 1):
@@ -61,6 +85,17 @@ def search_doc(words, phrase_word, options, window_len):
                                 'phrase': phrase,
                                 'doc': doc_without_class
                             })
+                '''
+    items = phrase_set.items()
+    backitems=[(v[1], v[0]) for v in items]
+    backitems.sort()
+    for value, key in backitems:
+        docs.append({
+            'phrase': key,
+            'doc': value[1]
+        })
+        if len(docs) == 100:
+            break
     return docs
 
 
